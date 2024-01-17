@@ -23,3 +23,4 @@
 - ` ctrl-c` - et väljuda localhostist jne
 - `console.log(´Somebody visited´);` - näitab, et keegi vaatas/sisenes.  sulgudes kasuta ´´ asemel: ``
 - `__dirname` - viitab sellele kataloogile, kus see asub
+- `npm start`- loogiline nohh
