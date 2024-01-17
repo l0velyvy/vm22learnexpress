@@ -17,7 +17,9 @@
 - `git clonde 'link'` foldri nimi - cloneb just seal foldris 
 - `github markdown` - listid, italic,underscore jne
 - `mv learnjs/vm22learnexpress/ learnexpress` - liigutab faile, rename file v catalog 
-- `Phoenixsnap.com` - elementaarsed käsud, seletused
+- `Phoenixsnap.com` - Veebikas kus on elementaarsed käsud, seletused
 - `app.get` - registreerib koodis inimest
 - `localhost` - viitab serveri meie aadressile. kui hoiad ctrl all ja clickad siis saadab sind veebikale
-- ` ctrl-c` - et väljuda localhostist
+- ` ctrl-c` - et väljuda localhostist jne
+- `console.log(´Somebody visited´);` - näitab, et keegi vaatas/sisenes.  sulgudes kasuta ´´ asemel: ``
+- `__dirname` - viitab sellele kataloogile, kus see asub
