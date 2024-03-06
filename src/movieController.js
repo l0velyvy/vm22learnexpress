@@ -29,35 +29,28 @@ router.get('/view',async (req, res) => {
     res.render('movies/view.njk', {movie: movie});
 });
 
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id',async (req, res) => {
     let id = parseInt(req.params.id);
-    let movies = fs.readFileSync('movies.json', 'utf-8');
-    movies = JSON.parse(movies);
-    let movie = movies.movies.find( m => m.id === id);
-    res.render('movies/edit.njk', {movie: movie});
+    let movies = await sequelize.query(`SELECT * FROM movies WHERE id=${id};`, {type: QueryTypes.SELECT});
+    let movie = movies[0];
+    
+     res.render('movies/edit.njk', {movie: movie});
 });
 
-router.post('/edit/:id', (req, res) => {
+router.post('/edit/:id',async (req, res) => {
     let id = parseInt(req.params.id);
-    let movies = fs.readFileSync('movies.json', 'utf-8');
-    movies = JSON.parse(movies);
-    let movie = movies.movies.find( m => m.id === id);
-    movie.name = req.body.movie;
-    movie.year = req.body.year;
-    movie.description = req.body.description;
-    let json = JSON.stringify(movies);
-    fs.writeFileSync('movies.json', json);
+    await sequelize.query(`UPDATE movies
+    SET name='${req.body.movie}',
+    year=${req.body.year}, 
+    description='${req.body.description} '
+    WHERE id=${id};`,
+{type: QueryTypes.UPDATE});
     res.redirect('/movies/');
 });
 
-router.get('/delete/:id', (req, res) => {
+router.get('/delete/:id',async (req, res) => {
     let id = parseInt(req.params.id);
-    let movies = fs.readFileSync('movies.json', 'utf-8');
-    movies = JSON.parse(movies);
-    let index = movies.movies.findIndex( m => m.id === id);
-    movies.movies.splice(index, 1);
-    let json = JSON.stringify(movies);
-    fs.writeFileSync('movies.json', json);
+   await sequelize.query(`DELETE FROM movies WHERE id=${id};`, {type: QueryTypes.DELETE});
     res.redirect('/movies/');
 });
 
