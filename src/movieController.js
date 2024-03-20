@@ -23,6 +23,7 @@ const Movie = sequelize.define('Movie',{
         type: DataTypes.TEXT, 
        
     }
+    
 },{ tableName: 'Movies', timestamps:false});
 
 
