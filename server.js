@@ -5,6 +5,11 @@ const port = 3000;
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+const session = require('express-session');
+app.use(session({
+  secret: 'secret'
+}))
+
 app.use(express.urlencoded({
   extended:true
 }));
@@ -41,8 +46,11 @@ const movieController = require('./src/movieController.js');
 app.use('/movies', movieController);
 
 app.get ('/cookie', (req, res) => {
-  res.cookie('mycookie', 'cool cookie');
-res.send(req.cookies);
+  res.cookie('mycookie', 'cool cookie', {maxAge: 1000*60*60*24*364*1000});
+  if(!res.session.secretValue){
+  res.session.secretValue = 'shhh';
+}
+res.send(req.session);
 });
 
 
