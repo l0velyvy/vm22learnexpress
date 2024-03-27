@@ -53,6 +53,8 @@ app.get ('/cookie', (req, res) => {
 res.send(req.session);
 });
 
+const authController = require('./src/authController.js');
+app.use(authController);
 
 
 app.listen(port, () => {
