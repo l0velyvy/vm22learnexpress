@@ -2,6 +2,8 @@ const express = require('express');
 const nunjucks = require('nunjucks');
 const app = express();
 const port = 3000;
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 app.use(express.urlencoded({
   extended:true
@@ -37,6 +39,11 @@ app.post('/circle', (req, res) => {
 
 const movieController = require('./src/movieController.js');
 app.use('/movies', movieController);
+
+app.get ('/cookie', (req, res) => {
+  res.cookie('mycookie', 'cool cookie');
+res.send(req.cookies);
+});
 
 
 
