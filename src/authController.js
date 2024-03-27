@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const bcrypt = require('bcrypt')
 const User = require('./models/User.js')
 
 router.get('/register', async (req, res) => {
@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
         User.create({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
+            password: bcrypt.hashSync(re.body.password, 12)
         })
     }
     res.redirect('/register');
