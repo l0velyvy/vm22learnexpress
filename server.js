@@ -6,21 +6,30 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 const session = require('express-session');
+var FileStore = require('session-file-store') (session);
 app.use(session({
-  secret: 'secret'
+  store: new FileStore(),
+  secret: 'secret',
+  resave: false,
+  saveUnitialized: false,
 }))
 
 app.use(express.urlencoded({
   extended:true
 }));
 
-nunjucks.configure('views', {
-    autoescape: true,
-    express: app
+const env = nunjucks.configure('views', {
+  autoescape: true,
+  express: app
+});
+app.use((req, res, next) =>{
+  console.log(req.session.user)
+  env.addGlobal('user', req.session.user);
+  next();
 });
 
-
 app.get('/', (req, res) => {
+  
   res.render('index.njk');
 });
 

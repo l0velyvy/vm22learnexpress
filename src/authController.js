@@ -14,15 +14,50 @@ router.post('/register', async (req, res) => {
         }
     });
     if (req.body.password !== req.body.password_confirm || user) {
-
+        res.redirect('/register');
     } else {
         User.create({
             name: req.body.name,
             email: req.body.email,
-            password: bcrypt.hashSync(re.body.password, 12)
+            password: bcrypt.hashSync(req.body.password, 12)
         })
+        res.redirect('/');
     }
-    res.redirect('/register');
+    
 });
+
+
+
+
+
+router.get('/login', async (req, res) => {
+    res.render('auth/login.njk');
+});
+
+
+router.post('/login', async (req, res) => {
+    let user = await User.findOne({
+        where: {
+            email: req.body.email
+        }
+    });
+
+    if (!user || !bcrypt.compareSync(req.body.password, user.password)){
+        res.redirect('/login');
+    } 
+    else {
+    req.session.user = user;
+    res.redirect('/');
+}
+});
+
+
+
+
+
+
+
+
+
 
 module.exports = router;
