@@ -6,30 +6,33 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 const session = require('express-session');
-var FileStore = require('session-file-store') (session);
+const FileStore = require('session-file-store')(session);
 app.use(session({
   store: new FileStore(),
   secret: 'secret',
   resave: false,
-  saveUnitialized: false,
-}))
+  saveUninitialized: false,
+}));
 
 app.use(express.urlencoded({
   extended:true
 }));
 
 const env = nunjucks.configure('views', {
-  autoescape: true,
-  express: app
+    autoescape: true,
+    express: app
 });
-app.use((req, res, next) =>{
-  console.log(req.session.user)
+
+app.use((req, res, next) => {
   env.addGlobal('user', req.session.user);
+  env.addGlobal('errors', req.session.errors);
+  req.session.errors = null;
+  req.session.save();
   next();
 });
 
 app.get('/', (req, res) => {
-  
+  console.log(req.session.user);
   res.render('index.njk');
 });
 
@@ -54,17 +57,16 @@ app.post('/circle', (req, res) => {
 const movieController = require('./src/movieController.js');
 app.use('/movies', movieController);
 
-app.get ('/cookie', (req, res) => {
-  res.cookie('mycookie', 'cool cookie', {maxAge: 1000*60*60*24*364*1000});
-  if(!res.session.secretValue){
-  res.session.secretValue = 'shhh';
-}
-res.send(req.session);
+app.get('/cookie', (req, res) => {
+  res.cookie('mycookie', 'cool cookie', {maxAge: 1000*60*60*24*356*200});
+  if(!req.session.secretValue){
+    req.session.secretValue = new Date();
+  }
+  res.send(req.session);
 });
 
 const authController = require('./src/authController.js');
 app.use(authController);
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
