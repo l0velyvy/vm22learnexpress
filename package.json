@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon -e js,json,njk"
+    "start": "nodemon -e js,json,njk -i sessions"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,8 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "sequelize-cli": "^6.6.2"
   }
 }
+

@@ -1,25 +1,34 @@
-const {Sequelize, QueryTypes, DataTypes } = require('sequelize');
-let sequelize = new Sequelize('sqlite:db.sqlite');
-const User = require('./User.js');
-const Movie = sequelize.define('Movie', {
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-    },
+'use strict';
+const {
+  Model
+} = require('sequelize');
+
+module.exports = (sequelize, DataTypes) => {
+  class Movie extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      this.belongsTo(models.User);
+    }
+  }
+  Movie.init({
     name: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     year: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     description: {
-        type: DataTypes.TEXT
+      type: DataTypes.TEXT
     },
-}, {tableName: 'movies', timestamps:false});
-
-Movie.belongsTo(User, {foreignKey: 'user_id'});
-
-module.exports = Movie;
+  }, {
+    sequelize,
+    modelName: 'Movie',
+  });
+  return Movie;
+};
