@@ -9,8 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    snippet() {
+      return this.description.substring(0, 300);
+    }
     static associate(models) {
-      // define association here
+      // define association here 
+      this.belongsTo(models.User);
     }
   }
   Movie.init({
